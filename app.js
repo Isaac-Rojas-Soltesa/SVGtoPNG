@@ -69,7 +69,7 @@ app.post('/convert', async(req, res) => {
     
     
     const doc =  await pdf.create(document, options);
-    var data = fs.readFileSync(path);
+    var data = fs.readFileSync(path, {encoding: 'base64'});
     fs.unlinkSync(path)
     res.send({'data' : data});
 
