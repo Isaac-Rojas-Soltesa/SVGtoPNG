@@ -23,6 +23,9 @@ var options = {
             default: '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>', // fallback value
             last: 'Last Page'
         }
+    },
+    env: {
+        OPENSSL_CONF: '/dev/null',
     }
 };
 
