@@ -2,8 +2,31 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 var fs = require("fs");
-const { convertFile}  = require('convert-svg-to-png');
+var pdf = require("pdf-creator-node");
+
+
 const app = express();
+
+var options = {
+    format: "A3",
+    orientation: "portrait",
+    border: "10mm",
+    header: {
+        height: "45mm",
+        contents: '<div style="text-align: center;"></div>'
+    },
+    footer: {
+        height: "28mm",
+        contents: {
+            first: '1',
+            2: 'Second page', // Any page number is working. 1-based index
+            default: '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>', // fallback value
+            last: 'Last Page'
+        }
+    }
+};
+
+
 
 const fileStorage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -26,16 +49,28 @@ app.use((req, res, next) => {
 });
 
 app.post('/convert', async(req, res) => {
+    
     var id = Date.now().toString();
-    var datos = fs.writeFileSync('./file/' + id.trim() + '.svg', req.body.svg);
-    const outputFilePath = await convertFile('./file/' + id.trim() + '.svg');
-
-    var datosImg = fs.readFileSync('./file/'+id.trim()+'.png');
-    fs.unlinkSync('./file/'+id.trim()+'.png');
-    fs.unlinkSync('./file/'+id.trim()+'.svg');
-    res.send({'data':datosImg});
+    var html = req.body.html;
+    var path = './file/' + id.trim() + '.pdf';
+    var document = {
+        html: html,
+        data: {
+            //users: users,
+        },
+        path: path,
+        type: "",
+    }; 
+    
+    
+    const doc =  await pdf.create(document, options);
+    var data = fs.readFileSync(path);
+    fs.unlinkSync(path)
+    res.send({'data' : data});
 
   });
 
-const PORT = process.env.PORT || 5001;
-app.listen(process.env.PORT || 5000);
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, ()=>{
+    console.log("Server Running");
+});
