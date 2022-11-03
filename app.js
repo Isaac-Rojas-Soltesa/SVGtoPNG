@@ -24,8 +24,10 @@ var options = {
             last: 'Last Page'
         }
     },
-    env: {
-        OPENSSL_CONF: '/dev/null',
+    childProcessOptions: {
+        env: {
+          OPENSSL_CONF: '/dev/null',
+        },
     }
 };
 
