@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const multer = require('multer');
 var fs = require("fs");
 var pdf = require("pdf-creator-node");
-const uuidv4 = require("uuid/v4");
+const uuid = require("uuid");
 
 const app = express();
 
@@ -55,7 +55,7 @@ app.use((req, res, next) => {
 
 app.post('/convert', async(req, res) => {
     
-    var id = uuidv4();
+    var id = uuid.v4();
     var html = req.body.html;
     var path = './file/' + id.trim() + '.pdf';
     var document = {
