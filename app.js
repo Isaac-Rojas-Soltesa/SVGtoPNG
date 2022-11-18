@@ -55,8 +55,9 @@ app.use((req, res, next) => {
 
 app.post('/convert', async(req, res) => {
     
-    var id = uuidv4();
+    var id = req.body.id;
     var html = req.body.html;
+
     var path = './file/' + id.trim() + '.pdf';
     var document = {
         html: html,
