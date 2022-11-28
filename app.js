@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const multer = require('multer');
 var fs = require("fs");
 var pdf = require("pdf-creator-node");
-const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 
