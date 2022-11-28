@@ -73,7 +73,6 @@ app.post('/convert', async(req, res) => {
     var data = fs.readFileSync(path, {encoding: 'base64'});
     fs.unlinkSync(path)
     res.send({'data' : data});
-
   });
 
 const PORT = process.env.PORT || 8080;
